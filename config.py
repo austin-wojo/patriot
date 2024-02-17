@@ -1,17 +1,12 @@
 import os
 
-# Set key on heroku
-# print(os.urandom(16).hex())
-# heroku config:set SECRET_KEY='your_secret_key_here'
-
-# Add SQL DB
-# heroku addons:create heroku-postgresql:mini
-
-# Init flask DB on heroku
-# heroku run flask db upgrade -a warhammer-maker
-
+# SET ENVIROMENT VARIABLES
+# export SECRET_KEY='your_very_secret_key_here'
+# export DATABASE_URL='postgresql://user:password@localhost/yourdatabase'
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'default_secret_key')
+    SECRET_KEY = os.environ.get('SECRET_KEY', '5379d67e996f49e7a9ee9b597a00fb2d')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL').replace("postgres://", "postgresql://", 1) if os.environ.get('DATABASE_URL') else 'sqlite:///site.db'
+    # Additional configuration for SSL in production
+    PREFERRED_URL_SCHEME = 'https'

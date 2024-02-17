@@ -10,6 +10,11 @@ To deploy a Flask app to a production server using Gunicorn and Nginx, follow th
 - **Enable password authentication** by finding and modifying or adding the `PasswordAuthentication yes` directive.
 - **Restart SSH service**: `sudo systemctl restart sshd`
 
+## Obtaining an SSL Certificate with Let's Encrypt:
+- Install Certbot and the Nginx plugin: `sudo apt install certbot python3-certbot-nginx`
+- Obtain the certificate: `sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com`
+- Follow the prompts. Certbot will modify your Nginx configuration to use the SSL certificate and set up automatic renewal.
+
 ### 3. Clone Your Flask App
 - **Clone your repository**: `git clone <repository-url>`
 - **Navigate to your project directory**: `cd <project-directory>`
@@ -45,10 +50,31 @@ To deploy a Flask app to a production server using Gunicorn and Nginx, follow th
 - **Configure Nginx to proxy requests to Gunicorn**: `sudo nano /etc/nginx/sites-available/myapp`
 - **Paste the Nginx server block configuration**:
     ```nginx
+    # Redirect HTTP to HTTPS
     server {
         listen 80;
         server_name mydomain.com www.mydomain.com;
 
+        # Redirect all HTTP requests to HTTPS
+        return 301 https://$server_name$request_uri;
+    }
+
+    # HTTPS server configuration
+    server {
+        # Listen on port 443 for SSL connections
+        listen 443 ssl;
+        server_name mydomain.com www.mydomain.com;
+
+        # SSL certificate and private key paths
+        ssl_certificate /etc/letsencrypt/live/mydomain.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/mydomain.com/privkey.pem;
+
+        # Recommended SSL settings for security
+        ssl_protocols TLSv1.2 TLSv1.3;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers on;
+
+        # Proxy all requests to the Flask application
         location / {
             include proxy_params;
             proxy_pass http://unix:/home/myuser/myapp/myapp.sock;
@@ -60,7 +86,9 @@ To deploy a Flask app to a production server using Gunicorn and Nginx, follow th
 - **Restart Nginx**: `sudo systemctl restart nginx`
 
 ### 7. Adjust the Firewall
-- **Allow Nginx through the firewall**: `sudo ufw allow 'Nginx Full'`
+- **Allow Nginx through the firewall**: 
+`sudo ufw allow 'Nginx Full'`
+`sudo ufw delete allow 'Nginx HTTP'`
 
 ### 8. Access Your Site
 - **Visit your domain**: Open your web browser and navigate to your domain.

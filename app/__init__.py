@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from .extensions import db, login_manager, migrate
 from config import Config
 from .routes import register_blueprints
@@ -35,13 +35,13 @@ def create_app(config_class=Config):
 
     # Register blueprints
     register_blueprints(app)
-    @app.errorhandler(404)
-    def not_found_error(error):
-        return render_template('404.html'), 404
+    # @app.errorhandler(404)
+    # def not_found_error(error):
+    #     return render_template('errors.404.html'), 404
 
-    @app.errorhandler(500)
-    def internal_error(error):
-        db.session.rollback()  # If using a DB
-        return render_template('500.html'), 500
+    # @app.errorhandler(500)
+    # def internal_error(error):
+    #     db.session.rollback()  # If using a DB
+    #     return render_template('500.html'), 500
 
     return app

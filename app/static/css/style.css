@@ -1,31 +1,24 @@
 :root {
-    /* Color Scheme */
-    --primary-color: #0077cc;
-    --secondary-color: #004a99;
-    --accent-color: #005f8f;
-    --light-bg: #f4f4f4;
-    --text-color: #333;
-    --text-light: #ffffff;
-
-    /* Typography */
-    --font-family: 'Roboto', sans-serif;
-    --font-size-base: 16px;
-
-    /* Spacing */
-    --space-sm: 8px;
-    --space-md: 16px;
-    --space-lg: 32px;
-    --space-xl: 64px;
-
-    /* Borders */
-    --border-radius: 8px;
-    --box-shadow-base: 0 4px 6px rgba(0,0,0,0.1);
-    --box-shadow-hover: 0 5px 15px rgba(0,0,0,0.3);
+    --cream-color: #f5f5dc; /* Cream */
+    --accent-color-red: #7D0719; /* Dark red */
+    --accent-color-blue: #000080; /* Blue */
+    --bg-color: #012335; /* Background color */
+    --text-color: #F7FEFF; /* Text color */
+    --text-light: #E54823; /* Light text color for gradients */
+    --font-family: 'Roboto', sans-serif; /* Font family */
+    --font-size-base: 16px; /* Base font size */
+    --space-sm: 8px; /* Small space */
+    --space-md: 16px; /* Medium space */
+    --space-lg: 32px; /* Large space */
+    --space-xl: 64px; /* Extra large space */
+    --border-radius: 8px; /* Border radius */
+    --box-shadow-base: 0 4px 6px rgba(0,0,0,0.1); /* Base box shadow */
+    --box-shadow-hover: 0 5px 15px rgba(0,0,0,0.3); /* Hover box shadow */
 }
 
 body {
     font-family: var(--font-family);
-    background-color: var(--light-bg);
+    background-color: var(--bg-color);
     color: var(--text-color);
     font-size: var(--font-size-base);
     margin: 0;
@@ -33,39 +26,24 @@ body {
     line-height: 1.6;
 }
 
-header, footer {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: var(--text-light);
-    text-align: center;
-    padding: var(--space-xl) var(--space-md);
-}
-
-#main-nav ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: var(--space-md);
-}
-
-#main-nav ul li a {
-    text-decoration: none;
-    color: inherit; /* Use the inherited text-light color */
-    padding: var(--space-sm) var(--space-md);
-    border-radius: var(--border-radius);
-    transition: background-color 0.3s;
-}
-
-#main-nav ul li a:hover, #main-nav ul li a.active {
-    background-color: var(--accent-color);
-}
-
 section {
     padding: var(--space-xl) var(--space-md);
     text-align: center;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height: 100vh;
 }
 
-.img-fluid, .feature-img, .class-img, .testimonial-img {
+.container, .container-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    width: 100%; /* Ensure full width */
+}
+
+img.img-fluid, .feature-img, .class-img, .testimonial-img {
     width: 100%;
     height: auto;
     border-radius: var(--border-radius);
@@ -73,123 +51,53 @@ section {
     object-fit: cover;
 }
 
-/* Specific sizes for different sections */
-.about-img {
-    max-width: 600px;
-    height: 350px;
-    margin: auto; /* Centering the image */
-}
-
-.class-img, .feature-img {
-    height: 250px; /* Consistent height for class and feature images */
-}
-
-.testimonial-img {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%; /* Making the image circular */
-}
-
-.class-item, .testimonial-item {
-    background-color: var(--text-light);
-    padding: var(--space-md);
-    margin-bottom: var(--space-lg);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow-base);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.class-item:hover, .testimonial-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--box-shadow-hover);
-}
-
-.classes-container, .testimonials-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-md);
-}
-
-/* Utility class for animations */
-.fade-in {
-    opacity: 0;
-    animation: fadeInAnimation 1.5s forwards;
-}
-
-.parallax-container {
-    position: relative;
-    overflow: hidden;
-    height: 700px; /* Adjust based on your preference */
-}
-
-.parallax-background {
-    opacity: 50%;
-    position: absolute;
+/* Sticky Navbar */
+#main-nav {
+    position: sticky;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 150%; /* Larger height for the parallax scrolling effect */
-    background-image: url('app/static/images/your-parallax-image.jpg');
-    background-size: cover;
-    background-position: center;
-    will-change: transform; /* Optimizes animations */
-}
-
-.overlay-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--text-light);
-    text-align: center;
-    z-index: 2; /* Ensures the text is above the background */
-}
-
-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: var(--text-light);
-    padding: var(--space-md);
-    text-align: center;
-}
-
-.container-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    z-index: 1000; /* Ensure navbar is above other content */
+    background-color: var(--bg-color); /* Navbar background color */
 }
 
 #main-nav ul {
     list-style: none;
     padding: 0;
+    margin: 0; /* Reset default margin */
     display: flex;
     gap: var(--space-md);
     justify-content: center;
-    margin-top: var(--space-md);
+    align-items: center; /* Align items vertically */
 }
 
 #main-nav ul li a {
     text-decoration: none;
-    color: var(--text-light);
+    color: var(--accent-color-red);
     padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--cream-color);
+    background-color: var(--cream-color);
     border-radius: var(--border-radius);
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 #main-nav ul li a:hover, #main-nav ul li a.active {
-    background-color: var(--accent-color);
+    background-color: var(--accent-color-red);
+    color: var(--cream-color);
 }
 
+/* Fading line under the navbar */
+.container-header:after {
+    content: '';
+    display: block;
+    width: 100%; /* Adjusted to full width */
+    height: 3px;
+    background: linear-gradient(to right, rgba(0,0,0,0), var(--cream-color),rgba(0,0,0,0));
+    position: absolute;
+    bottom: 0;
+}
 
-@media (min-width: 768px) {
-    .container-header {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    header {
-        text-align: left;
-    }
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 1.5s forwards;
 }
 
 @keyframes fadeInAnimation {

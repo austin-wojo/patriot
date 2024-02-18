@@ -1,22 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Parallax Section -->
+<!-- Parallax Section 
 <div class="parallax-container">
     <div class="parallax-background" style="background-image: url('{{ url_for('static', filename='images/parralax-flag.jpg') }}');"></div>
-
-        <section id="about" class="pt-5 fade-in">
-            <div class="container">
-                <h2 class="text-center mb-3">About</h2>
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <img src="classroom.jpg" alt="Classroom" class="img-fluid about-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 </div>
+-->
+<section id='hero' class='hero'>
+    <div class="container">
+        <h1>PATRIOT ACADEMY</h1>
+        <img src="{{ url_for('static', filename='images/hero.png') }}" alt="Hero" class="img-fluid about-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
+        <h1 class="text-center mb-3">BIBLICAL CITIZENSHIP CLASSES</h1>
+        <div class="col-md-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div
+<section id="about" class="pt-5 fade-in">
+    <div class="container">
+        <h2 class="text-center mb-3">About</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <img src="classroom.jpg" alt="Classroom" class="img-fluid about-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        </div>
+    </div>
+</section>
 
 
 <section id="classes" class="py-5 fade-in">
@@ -64,31 +72,6 @@
                     <figcaption class="blockquote-footer">John Doe</figcaption>
                 </div>
                 <!-- Additional testimonials with lorem ipsum -->
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="contact" class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-4">Contact Us</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <form id="contact-form">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" class="form-control" id="email" name="email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Message:</label>
-                        <textarea class="form-control" id="message" name="message" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Send Message</button>
-                </form>
             </div>
         </div>
     </div>

@@ -105,3 +105,21 @@ img.img-fluid, .feature-img, .class-img, .testimonial-img {
         opacity: 1;
     }
 }
+
+.container {
+    padding-top: 10px; /* Reduce the top padding, adjust value as needed */
+    margin-top: 0; /* Reduce or remove the top margin if necessary */
+}
+img.img-fluid {
+    margin-top: 0; /* Reduce or remove the top margin of the image */
+}
+/* If the image is the first element inside a section or div after the navbar */
+section > img.img-fluid:first-child, 
+div > img.img-fluid:first-child {
+    margin-top: 0; /* Adjust as per the requirement */
+}
+
+/* Or if the image has a specific class or id */
+.hero-image { /* Assuming .hero-image is the class of your image */
+    margin-top: 0; /* Adjust the margin to reduce the gap */
+}

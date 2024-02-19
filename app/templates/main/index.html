@@ -1,81 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Parallax Section 
-<div class="parallax-container">
-    <div class="parallax-background" style="background-image: url('{{ url_for('static', filename='images/parralax-flag.jpg') }}');"></div>
-    </div>
+
+
+<div id="app">
+    <header-section ></header-section>
+    <hero-section :imagesrc="'{{ url_for('static', filename='images/hero.png') }}'"></hero-section>
+    <about-section></about-section>
+    <classes-section></classes-section>
+    <features-section></features-section>
+    <testimonials-section></testimonials-section>
 </div>
--->
-<section id='hero' class='hero'>
-    <div class="container">
-        <h1>PATRIOT ACADEMY</h1>
-        <img src="{{ url_for('static', filename='images/hero.png') }}" alt="Hero" class="img-fluid about-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-        <h1 class="text-center mb-3">BIBLICAL CITIZENSHIP CLASSES</h1>
-        <div class="col-md-8">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div
-<section id="about" class="pt-5 fade-in">
-    <div class="container">
-        <h2 class="text-center mb-3">About</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <img src="classroom.jpg" alt="Classroom" class="img-fluid about-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section id="classes" class="py-5 fade-in">
-    <div class="container">
-        <h2 class="text-center mb-4">Our Classes</h2>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div class="col">
-                <div class="class-card">
-                    <img src="URL_FOR_COURSE_1_IMAGE" alt="Course 1" class="class-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-                    <div class="class-info">
-                        <h5 class="card-title">Foundations of Faith</h5>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Additional class cards with lorem ipsum -->
-        </div>
-    </div>
-</section>
-
-
-<section id="features" class="py-5 bg-light fade-in">
-    <div class="container">
-        <h2 class="text-center mb-5">Features</h2>
-        <div class="row">
-            <!-- Feature 1 -->
-            <div class="col-md-4 mb-4">
-                <img src="URL_FOR_FEATURE_1_IMAGE" alt="Interactive Sessions" class="feature-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-                <h3>Interactive Sessions</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-            </div>
-            <!-- Additional features with lorem ipsum -->
-        </div>
-    </div>
-</section>
-
-<section id="testimonials" class="py-5 fade-in">
-    <div class="container">
-        <h2 class="text-center mb-4">Testimonials</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="testimonial-item mb-4">
-                    <img src="person-1.jpg" alt="Person 1" class="testimonial-img" onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/default-placeholder.png') }}';">
-                    <blockquote class="blockquote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."</blockquote>
-                    <figcaption class="blockquote-footer">John Doe</figcaption>
-                </div>
-                <!-- Additional testimonials with lorem ipsum -->
-            </div>
-        </div>
-    </div>
-</section>
-
 
 {% endblock %}

@@ -17,4 +17,6 @@ if __name__ == '__main__':
     Heritage and Honor: A palette of burgundy red, gold, and dark gray.
     Primary Colors: Bright red, slate gray, and white.
 
+
+    : Cream/lighter color transition (https://www.youtube.com/watch?v=lPJVi797Uy0) background when scrolling down.
     """

@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
 
-
-<div id="app">
-    <header-section ></header-section>
-    <hero-section :imagesrc="'{{ url_for('static', filename='images/hero.png') }}'"></hero-section>
+<nav-bar></nav-bar>
+<body>
+    <hero-section 
+        :src="'{{ url_for('static', filename='images/hero.png') }}'">
+    </hero-section>
     <about-section></about-section>
-    <classes-section></classes-section>
-    <features-section></features-section>
-    <testimonials-section></testimonials-section>
-</div>
+    <af-links-section></affiliate-links-section>
+</body>
 
 {% endblock %}

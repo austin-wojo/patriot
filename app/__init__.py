@@ -5,6 +5,8 @@ from .routes import register_blueprints
 import logging
 from logging.handlers import RotatingFileHandler
 import os
+from dotenv import load_dotenv
+load_dotenv()  # Take environment variables from .env.
 
 
 login_manager.login_view = 'auth.login'  # Specify the login route

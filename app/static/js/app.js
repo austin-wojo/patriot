@@ -1,15 +1,16 @@
 const { createApp } = Vue;
 
 
+
 const NavBar = {
     template: `
     <header>
         <div id="main-nav" class="container-header">
             <nav>
                 <ul>
-                    <li><a href="#about">About<i class="fas fa-user"></i></a></li>
-                    <li><a href="#signup">Sign Up</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#products">Products</a></li>
+                    <li><a href="#signup">Sign Up</a></li>
                 </ul>
             </nav>
             <div class="fading-line"></div>
@@ -46,7 +47,7 @@ const HeroSection = {
         <div class="container">
             <img :src="src" alt="Hero Image" class="hero-image">
             <h1 class="hero-title">BIBLICAL CITIZENSHIP CLASS</h1>
-            <p class="hero-text">General text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit...</p>
+            <p class="hero-text">General text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vehicula ligula justo, sit amet vestibulum metus eleifend nec. Aenean eget est non dolor pharetra maximus id at neque. Aenean egestas condimentum libero, eget hendrerit quam porttitor ac. Phasellus consectetur placerat ipsum ut bibendum. Duis a faucibus enim. Aliquam finibus leo eget ipsum tristique, non pretium ligula laoreet. Quisque gravida suscipit pellentesque. Vestibulum dignissim facilisis lectus sagittis pellentesque.</p>
         </div>
     </section>
     `,
@@ -60,8 +61,8 @@ const HeroSection = {
 
 const AffiliateLinksSection = {
     template: `
-        <section class="affiliate-links">
-            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container fade-in" :ref="setRef">
+        <section id="products" class="affiliate-links">
+            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container" :ref="setRef">
                 <img :src="item.image" :alt="item.title" class="affiliate-image">
                 <h2>{{ item.title }}</h2>
                 <p>{{ item.description }}</p>
@@ -74,16 +75,16 @@ const AffiliateLinksSection = {
             affiliateItems: [
                 {
                     id: 1,
-                    title: 'Affiliate Product 1',
-                    description: 'Description for affiliate product 1. Lorem ipsum dolor sit amet...',
-                    image: 'static/images/kitten.jpg',
+                    title: 'Affiliate Product',
+                    description: 'Donec id tincidunt purus, sed interdum diam. Etiam non dignissim turpis, eget volutpat elit. Maecenas semper sem at ipsum tristique, a sagittis sem tempor. Suspendisse sit amet fringilla mi, eget placerat ipsum. Suspendisse molestie lacus diam, at placerat nulla pellentesque vel. Morbi molestie pulvinar tempor. Proin dapibus ac elit vitae facilisis. Integer maximus eget nunc sit amet pharetra. Donec risus nibh, lobortis et aliquam nec, congue eu odio. Fusce accumsan sem quis tortor tempor, in lobortis nisl fringilla. Ut quis pretium mi. Maecenas eget fermentum augue. ',
+                    image: 'static/images/book1.avif',
                     link: '#link1'
                 },
                 {
                     id: 2,
-                    title: 'Affiliate Product 2',
-                    description: 'Description for affiliate product 2. Lorem ipsum dolor sit amet...',
-                    image: 'path_to_image_2',
+                    title: 'Affiliate Product',
+                    description: 'Vestibulum fringilla nunc sit amet viverra porttitor. Sed a mi a neque tincidunt consectetur eget at ex. Nunc et scelerisque lorem. In accumsan ac nisl in varius. Fusce rhoncus eget nibh et imperdiet. Morbi pharetra congue massa, sed dapibus dolor porttitor sit amet. Pellentesque vel nulla ante. Proin nec lectus at libero dapibus fringilla in sit amet tortor. Aenean vel ante blandit, feugiat lorem sit amet, convallis ante. ',
+                    image: 'static/images/manreadingbook.webp',
                     link: '#link2'
                 },
                 // Add more items as needed

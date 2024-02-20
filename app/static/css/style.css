@@ -17,6 +17,7 @@
     --border-radius: 8px;
     --box-shadow-base: 0 4px 6px rgba(0,0,0,0.1);
     --box-shadow-hover: 0 5px 15px rgba(0,0,0,0.3);
+    --space-section: 724px;
 }
 
 body {
@@ -38,6 +39,10 @@ section, .container, .container-header {
     align-content: center;
 }
 
+section.affiliate-links > div{
+    min-height: 80vh;
+}
+
 img.img-fluid {
     width: 100%;
     height: auto;
@@ -52,7 +57,7 @@ img.img-fluid {
     z-index: 1000;
     background-color: var(--bg-color);
     font-family: var(--font-header-family);
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     padding: var(--space-md);
@@ -62,14 +67,16 @@ img.img-fluid {
     list-style: none;
     display: flex;
     gap: var(--space-md);
+    align-items: center;
+    padding: 0;
+    margin: 0;
+
 }
 
 #main-nav ul li a {
     text-decoration: none;
-    color: var(--accent-color-red);
+    color: var(--text-color);
     padding: var(--space-sm);
-    border: 2px solid var(--cream-color);
-    background-color: var(--cream-color);
     border-radius: var(--border-radius);
     transition: background-color 0.3s, color 0.3s;
 }
@@ -85,7 +92,7 @@ img.img-fluid {
     display: block;
     width: 100%;
     height: 3px;
-    background: linear-gradient(to right, rgba(0,0,0,0), var(--cream-color), rgba(0,0,0,0));
+    background: linear-gradient(to right, rgba(0,0,0,0), var(--accent-color-red), rgba(0,0,0,0));
     position: absolute;
     bottom: 0;
 }
@@ -109,13 +116,27 @@ img.img-fluid {
     font-weight: var(--font-weight-normal);
     margin-top: -50px;
 }
+
+body, .text-content {
+    text-align: center;
+}
+
+.text-content, p, h1, h2, h3, h4, h5, h6 {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90%; /* Adjusts the maximum width of text content */
+    padding: 0 var(--space-md); /* Uses the space-md variable for padding on the sides */
+}
 @keyframes fadeInLeft {
     from {
         opacity: 0;
-        transform: translateX(-50px);
+        filter: blur(5px);
+        transform: translateX(-50%);
+        transition: all 1s;
     }
     to {
         opacity: 1;
+        filter: blur(0);
         transform: translateX(0);
     }
 }
@@ -123,7 +144,9 @@ img.img-fluid {
 @keyframes fadeInRight {
     from {
         opacity: 0;
-        transform: translateX(50px);
+        filter: blur(5px);
+        transform: translateX(50%);
+        transition: all 1s;
     }
     to {
         opacity: 1;

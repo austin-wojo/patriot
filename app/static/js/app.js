@@ -4,10 +4,11 @@ const { createApp } = Vue;
 
 const NavBar = {
     template: `
-    <header>
+    <header >
         <div id="main-nav" class="container-header">
             <nav>
                 <ul>
+                    <li><a href="#hero">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#products">PRODUCTS</a></li>
                     <li><a href="#signup">SIGN UP</a></li>
@@ -32,7 +33,7 @@ const HeroSection = {
     <section id="hero" class="hero fade-in">
         <div class="container">
             <img :src="src" alt="Hero Image" class="hero-image">
-            <h1 class="hero-title">BIBLICAL CITIZENSHIP CLASS</h1>
+                <h1 class="hero-title">BIBLICAL CITIZENSHIP CLASS</h1>
             <p class="hero-text">General text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vehicula ligula justo, sit amet vestibulum metus eleifend nec. Aenean eget est non dolor pharetra maximus id at neque. Aenean egestas condimentum libero, eget hendrerit quam porttitor ac. Phasellus consectetur placerat ipsum ut bibendum. Duis a faucibus enim. Aliquam finibus leo eget ipsum tristique, non pretium ligula laoreet. Quisque gravida suscipit pellentesque. Vestibulum dignissim facilisis lectus sagittis pellentesque.</p>
         </div>
     </section>

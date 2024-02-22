@@ -8,9 +8,9 @@ const NavBar = {
         <div id="main-nav" class="container-header">
             <nav>
                 <ul>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#signup">Sign Up</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#products">PRODUCTS</a></li>
+                    <li><a href="#signup">SIGN UP</a></li>
                 </ul>
             </nav>
             <div class="fading-line"></div>
@@ -20,20 +20,6 @@ const NavBar = {
     data() {
         return {
             // Data properties for your component
-        }
-    },
-    mounted() {
-        // JavaScript for toggle button interaction
-        this.initNavbarToggle();
-    },
-    methods: {
-        initNavbarToggle() {
-            const burger = document.querySelector('.burger');
-            const navLinks = document.querySelector('.nav-links');
-
-            burger.addEventListener('click', () => {
-                navLinks.classList.toggle('nav-active');
-            });
         }
     }
 };
@@ -62,10 +48,10 @@ const HeroSection = {
 const AffiliateLinksSection = {
     template: `
         <section id="products" class="affiliate-links">
-            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container" :ref="setRef">
+            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container hidden" :ref="setRef">
                 <img :src="item.image" :alt="item.title" class="affiliate-image">
                 <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
+                <p class="hidden">{{ item.description }}</p>
                 <a :href="item.link" target="_blank" class="affiliate-link">Learn More</a>
             </div>
         </section>
@@ -92,27 +78,39 @@ const AffiliateLinksSection = {
         }
     },
     methods: {
-        setRef(el) {
-            if (el) {
+        setRef(container) {
+            if (container) {
                 this.$nextTick(() => {
-                    const observer = new IntersectionObserver((entries) => {
-                        entries.forEach((entry) => {
-                            // Determine the index for alternating animation direction
-                            let index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
-                            let directionClass = index % 2 === 0 ? 'fade-in-right' : 'fade-in-left';
-                            
-                            if (entry.isIntersecting) {
-                                entry.target.classList.add(directionClass);
-                            } else {
-                                // Remove the class when the element leaves the viewport
-                                entry.target.classList.remove(directionClass);
-                            }
-                        });
-                    }, { threshold: 0.1 });
-    
-                    observer.observe(el);
+                    // Observe the container for image and header
+                    this.observeElement(container, 'container');
+                    // Observe the description paragraph separately
+                    const description = container.querySelector('p');
+                    this.observeElement(description, 'description', container.dataset.index);
                 });
             }
+        } ,
+        
+        observeElement(el, type, index = 0) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        let animationClass;
+                        if (type === 'container') {
+                            animationClass = entry.target.dataset.index % 2 === 0 ? 'fade-in-right' : 'fade-in-left';
+                            entry.target.classList.add(animationClass);
+                        } else if (type === 'description') {
+                            animationClass = 'fade-in';
+                            // Apply a staggered delay based on the index
+                            let delay = parseInt(index) * 0.2; // Adjust the multiplier for different delays
+                            entry.target.style.animationDelay = `${delay}s`;
+                            entry.target.classList.add(animationClass);
+                        }
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { threshold: 0.5 });
+    
+            observer.observe(el);
         }
     },
     mounted() {

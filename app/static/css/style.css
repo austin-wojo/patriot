@@ -8,8 +8,8 @@
     --font-body-family: "Cormorant Garamond", serif;
     --font-header-family: "Proza Libre", sans-serif;
     --font-weight-normal: 400;
-    --font-size-base: 24px;
-    --font-size-large: 64px;
+    --font-size-base: calc(1vw + 1vh + 0.5vmin);
+    --font-size-large: calc(3vw + 1vh + 0.5vmin);
     --space-sm: 8px;
     --space-md: 16px;
     --space-lg: 32px;
@@ -130,7 +130,6 @@ header {
     font-size: var(--font-size-large);
     font-family: var(--font-header-family);
     font-weight: var(--font-weight-normal);
-    margin-top: -50px;
 }
 
 body, .text-content {
@@ -212,3 +211,4 @@ body, .text-content {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+

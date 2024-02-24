@@ -83,7 +83,7 @@ const AffiliateLinksSection = {
             if (container) {
                 this.$nextTick(() => {
                     // Observe the container for image and header
-                    this.observeElement(container, 'container');
+                    this.observeElement(container, 'affiliate-image');
                     // Observe the description paragraph separately
                     const description = container.querySelector('p');
                     this.observeElement(description, 'description', container.dataset.index);
@@ -96,7 +96,7 @@ const AffiliateLinksSection = {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         let animationClass;
-                        if (type === 'container') {
+                        if (type === 'affiliate-image') {
                             animationClass = entry.target.dataset.index % 2 === 0 ? 'fade-in-right' : 'fade-in-left';
                             entry.target.classList.add(animationClass);
                         } else if (type === 'description') {

@@ -1,0 +1,802 @@
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\config.py
+--------------------------------------------------------------------------------
+import os
+
+# SET ENVIROMENT VARIABLES
+# export SECRET_KEY='your_very_secret_key_here'
+# export DATABASE_URL='postgresql://user:password@localhost/yourdatabase'
+
+class Config:
+    SECRET_KEY = os.environ.get('SECRET_KEY', '5379d67e996f49e7a9ee9b597a00fb2d')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # Additional configuration for SSL in production
+    PREFERRED_URL_SCHEME = 'https'
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\run.py
+--------------------------------------------------------------------------------
+from app import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+    """
+    https://www.goody2.ai/
+    remove navbar
+        made it just show the links at top then \ as you scroll down
+    Clean hero with clear call to action
+        sign up / donate button?
+        borderless design 
+    Bold Leadership: A primary color scheme of deep red, navy blue, and white.
+    Heritage and Honor: A palette of burgundy red, gold, and dark gray.
+    Primary Colors: Bright red, slate gray, and white.
+
+
+    : Cream/lighter color transition (https://www.youtube.com/watch?v=lPJVi797Uy0) background when scrolling down.
+    """
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\wsgi.py
+--------------------------------------------------------------------------------
+from app import create_app
+
+app = create_app()
+
+if __name__ == '__main__':
+    app.run()
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\extensions.py
+--------------------------------------------------------------------------------
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_migrate import Migrate
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+migrate = Migrate()
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\forms.py
+--------------------------------------------------------------------------------
+# For use with Flask-WTF library to handle forms in webpages
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from app.models import User
+
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = User.query.filter_by(username=username.data).first()
+        if user:
+            raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('Please use a different email address.')
+        
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\models.py
+--------------------------------------------------------------------------------
+from datetime import datetime
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import db, login_manager
+
+# User loader function for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    password_hash = db.Column(db.String(128))
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\__init__.py
+--------------------------------------------------------------------------------
+from flask import Flask, render_template
+from .extensions import db, login_manager, migrate
+from config import Config
+from .routes import register_blueprints
+import logging
+from logging.handlers import RotatingFileHandler
+import os
+from dotenv import load_dotenv
+load_dotenv()  # Take environment variables from .env.
+
+
+login_manager.login_view = 'auth.login'  # Specify the login route
+login_manager.login_message_category = 'info'  # Optional: Customize login message category
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
+
+    # Enable logging
+    if not app.debug and not app.testing:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        file_handler = RotatingFileHandler('logs/yourapp.log', maxBytes=10240,
+                                        backupCount=10)
+        file_handler.setFormatter(logging.Formatter(
+            '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('App startup')
+
+    # Register blueprints
+    register_blueprints(app)
+    # @app.errorhandler(404)
+    # def not_found_error(error):
+    #     return render_template('errors.404.html'), 404
+
+    # @app.errorhandler(500)
+    # def internal_error(error):
+    #     db.session.rollback()  # If using a DB
+    #     return render_template('500.html'), 500
+
+    return app
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\routes\auth.py
+--------------------------------------------------------------------------------
+from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask_login import login_user, logout_user, login_required
+# Assume 'User' is a model from your models.py that includes user authentication logic
+
+auth = Blueprint('auth', __name__)
+
+from app.forms import LoginForm
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # Perform login logic (not shown for brevity)
+        flash('Login requested for user {}, remember_me={}'.format(
+            form.username.data, form.remember_me.data))
+        return redirect(url_for('main.index'))
+    return render_template('auth/login.html', title='Sign In', form=form)
+
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\routes\main.py
+--------------------------------------------------------------------------------
+from flask import Blueprint, render_template, url_for
+
+# Create a Blueprint for 'main'
+main = Blueprint('main', __name__)
+
+@main.route('/')
+def index():
+    """Render the homepage."""
+    return render_template('main/index.html')
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\routes\__init__.py
+--------------------------------------------------------------------------------
+from flask import Blueprint
+
+#Import blueprints from package files
+from .main import main
+from .auth import auth
+
+def register_blueprints(app):
+    app.register_blueprint(main)
+    app.register_blueprint(auth)
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\static\css\style.css
+--------------------------------------------------------------------------------
+:root {
+    --cream-color: #f5f5dc;
+    --accent-color-red: #7D0719;
+    --accent-color-blue: #000080;
+    --bg-color: #012335;
+    --text-color: #F7FEFF;
+    --text-light: #E54823;
+    --font-body-family: "Cormorant Garamond", serif;
+    --font-header-family: "Proza Libre", sans-serif;
+    --font-weight-normal: 400;
+    --font-size-base: 24px;
+    --font-size-large: 64px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 32px;
+    --space-xl: 64px;
+    --border-radius: 8px;
+    --box-shadow-base: 0 4px 6px rgba(0,0,0,0.1);
+    --box-shadow-hover: 0 5px 15px rgba(0,0,0,0.3);
+    --space-section: 724px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+}
+
+section, .container, .container-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+    display: grid;
+    place-items: center;
+    align-content: center;
+}
+
+section.affiliate-links > div{
+    min-height: 80vh;
+}
+
+.hidden {
+    opacity: 0;
+}
+
+.show {
+    opacity: 1;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+img.img-fluid {
+    width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-base);
+    object-fit: cover;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+#main-nav {
+    background-color: var(--bg-color);
+    font-family: var(--font-header-family);
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md);
+}
+
+#main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    padding: 0;
+    margin: 0;
+
+}
+
+#main-nav ul li a {
+    text-decoration: none;
+    color: var(--text-color);
+    padding: var(--space-sm);
+    border-radius: var(--border-radius);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+#main-nav ul li a:hover, #main-nav ul li a.active {
+    background-color: var(--accent-color-red);
+    color: var(--cream-color);
+}
+
+.container-header:after {
+    content: '';
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, rgba(0,0,0,0), var(--accent-color-red), rgba(0,0,0,0));
+    position: absolute;
+    bottom: 0;
+}
+
+.fade-in {
+    animation: fadeInAnimation 0.8s forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.hero {
+    margin-top: -100px;
+}
+
+.hero-title {
+    font-size: var(--font-size-large);
+    font-family: var(--font-header-family);
+    font-weight: var(--font-weight-normal);
+    margin-top: -50px;
+}
+
+body, .text-content {
+    text-align: center;
+}
+
+.text-content, p, h1, h2, h3, h4, h5, h6 {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90%; /* Adjusts the maximum width of text content */
+    padding: 0 var(--space-md); /* Uses the space-md variable for padding on the sides */
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(-50%);
+        transition: all 1s;
+    }
+    to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        filter: blur(5px);
+        transform: translateX(50%);
+        transition: all 1s;
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+.fade-in-left {
+    animation: fadeInLeft 1s forwards;
+}
+
+.fade-in-right {
+    animation: fadeInRight 1s forwards;
+}
+
+.hero {
+    position: relative;
+}
+
+.hero .container {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-image-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.3s ease-out;
+}
+
+.fade-in {
+    animation: fadeInAnimation 1.5s ease-out forwards;
+}
+
+@keyframes fadeInAnimation {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\static\js\app.js
+--------------------------------------------------------------------------------
+const { createApp } = Vue;
+
+
+
+const NavBar = {
+    template: `
+    <header >
+        <div id="main-nav" class="container-header">
+            <nav>
+                <ul>
+                    <li><a href="#hero">HOME</a></li>
+                    <li><a href="#about">ABOUT</a></li>
+                    <li><a href="#products">PRODUCTS</a></li>
+                    <li><a href="#signup">SIGN UP</a></li>
+                </ul>
+            </nav>
+            <div class="fading-line"></div>
+        </div>
+    </header>
+    `,
+    data() {
+        return {
+            // Data properties for your component
+        }
+    }
+};
+
+
+// Hero Section Component
+const HeroSection = {
+    props: ['src'],
+    template: `
+    <section id="hero" class="hero fade-in">
+        <div class="container">
+            <img :src="src" alt="Hero Image" class="hero-image">
+                <h1 class="hero-title">BIBLICAL CITIZENSHIP CLASS</h1>
+            <p class="hero-text">General text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vehicula ligula justo, sit amet vestibulum metus eleifend nec. Aenean eget est non dolor pharetra maximus id at neque. Aenean egestas condimentum libero, eget hendrerit quam porttitor ac. Phasellus consectetur placerat ipsum ut bibendum. Duis a faucibus enim. Aliquam finibus leo eget ipsum tristique, non pretium ligula laoreet. Quisque gravida suscipit pellentesque. Vestibulum dignissim facilisis lectus sagittis pellentesque.</p>
+        </div>
+    </section>
+    `,
+    data() {
+        return {
+
+        }
+    }
+
+};
+
+const AffiliateLinksSection = {
+    template: `
+        <section id="products" class="affiliate-links">
+            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container hidden" :ref="setRef">
+                <img :src="item.image" :alt="item.title" class="affiliate-image">
+                <h2>{{ item.title }}</h2>
+                <p class="hidden">{{ item.description }}</p>
+                <a :href="item.link" target="_blank" class="affiliate-link">Learn More</a>
+            </div>
+        </section>
+    `,
+    data() {
+        return {
+            affiliateItems: [
+                {
+                    id: 1,
+                    title: 'Affiliate Product',
+                    description: 'Donec id tincidunt purus, sed interdum diam. Etiam non dignissim turpis, eget volutpat elit. Maecenas semper sem at ipsum tristique, a sagittis sem tempor. Suspendisse sit amet fringilla mi, eget placerat ipsum. Suspendisse molestie lacus diam, at placerat nulla pellentesque vel. Morbi molestie pulvinar tempor. Proin dapibus ac elit vitae facilisis. Integer maximus eget nunc sit amet pharetra. Donec risus nibh, lobortis et aliquam nec, congue eu odio. Fusce accumsan sem quis tortor tempor, in lobortis nisl fringilla. Ut quis pretium mi. Maecenas eget fermentum augue. ',
+                    image: 'static/images/book1.avif',
+                    link: '#link1'
+                },
+                {
+                    id: 2,
+                    title: 'Affiliate Product',
+                    description: 'Vestibulum fringilla nunc sit amet viverra porttitor. Sed a mi a neque tincidunt consectetur eget at ex. Nunc et scelerisque lorem. In accumsan ac nisl in varius. Fusce rhoncus eget nibh et imperdiet. Morbi pharetra congue massa, sed dapibus dolor porttitor sit amet. Pellentesque vel nulla ante. Proin nec lectus at libero dapibus fringilla in sit amet tortor. Aenean vel ante blandit, feugiat lorem sit amet, convallis ante. ',
+                    image: 'static/images/manreadingbook.webp',
+                    link: '#link2'
+                },
+                // Add more items as needed
+            ]
+        }
+    },
+    methods: {
+        setRef(container) {
+            if (container) {
+                this.$nextTick(() => {
+                    // Observe the container for image and header
+                    this.observeElement(container, 'container');
+                    // Observe the description paragraph separately
+                    const description = container.querySelector('p');
+                    this.observeElement(description, 'description', container.dataset.index);
+                });
+            }
+        } ,
+        
+        observeElement(el, type, index = 0) {
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        let animationClass;
+                        if (type === 'container') {
+                            animationClass = entry.target.dataset.index % 2 === 0 ? 'fade-in-right' : 'fade-in-left';
+                            entry.target.classList.add(animationClass);
+                        } else if (type === 'description') {
+                            animationClass = 'fade-in';
+                            // Apply a staggered delay based on the index
+                            let delay = parseInt(index) * 0.2; // Adjust the multiplier for different delays
+                            entry.target.style.animationDelay = `${delay}s`;
+                            entry.target.classList.add(animationClass);
+                        }
+                        observer.unobserve(entry.target); // Stop observing once animated
+                    }
+                });
+            }, { threshold: 0.5 });
+    
+            observer.observe(el);
+        }
+    },
+    mounted() {
+        // Intersection Observer setup is handled in setRef method
+    }
+};
+
+
+// About Section Component
+const AboutSection = {
+    template: `<!-- About section template with props or data -->`
+};
+
+// Define more components as needed...
+
+// Create Vue application
+const app = createApp({});
+
+// Register components
+app.component('nav-bar', NavBar);
+app.component('af-links-section', AffiliateLinksSection);
+app.component('hero-section', HeroSection);
+app.component('about-section', AboutSection);
+// Register more components...
+
+app.mount('#app');
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\static\js\script.js
+--------------------------------------------------------------------------------
+
+// document.addEventListener('scroll', function() {
+//     const parallaxBackground = document.querySelector('.parallax-background');
+//     const scrollPosition = window.scrollY;
+//     parallaxBackground.style.backgroundPositionY = -(scrollPosition * 0.5) + 'px';
+// });
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     const observer = new IntersectionObserver((entries) => {
+//         entries.forEach((entry) => {
+//             if (entry.isIntersecting) {
+//                 entry.target.classList.add('fade-in');
+//             }
+//         });
+//     }, { threshold: 0.1 });
+
+//     document.querySelectorAll('.affiliate-item').forEach((item) => {
+//         observer.observe(item);
+//     });
+//     document.querySelectorAll('.hero').forEach((item) => {
+//         observer.observe(item);
+//     });
+// });
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\base.html
+--------------------------------------------------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://unpkg.com/vue@3"></script>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Biblical Citizenship{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Proza+Libre:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet"></head>
+    <div id="app">
+        {% block content %} {% endblock %}
+    </div>
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</html>
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\auth\login.html
+--------------------------------------------------------------------------------
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} Remember Me</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\auth\register.html
+--------------------------------------------------------------------------------
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\errors\404.html
+--------------------------------------------------------------------------------
+{% extends "base.html" %}
+{% block content %}
+<div class="error-page">
+    <h2>404 - Page Not Found</h2>
+    <p>Sorry, we can't find the page you're looking for.</p>
+</div>
+{% endblock %}
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\layout\_footer.html
+--------------------------------------------------------------------------------
+<footer>
+    <p>&copy; 2024 Biblical Citizenship Classes</p>
+</footer>
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\layout\_navbar_old.html
+--------------------------------------------------------------------------------
+<header>
+    <div class="container-header fade-in">
+        <nav id="main-nav">
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#signup">Sign Up</a></li>
+                <li><a href="#products">Products</a></li>
+            </ul>
+        </nav>
+        <div class="fading-line"></div>
+    </div>
+</header>
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\app\templates\main\index.html
+--------------------------------------------------------------------------------
+{% extends "base.html" %}
+{% block content %}
+
+<nav-bar></nav-bar>
+<body>
+    <hero-section 
+        :src="'{{ url_for('static', filename='images/hero.png') }}'">
+    </hero-section>
+    <about-section></about-section>
+    <af-links-section></affiliate-links-section>
+</body>
+
+{% endblock %}
+
+================================================================================
+
+
+================================================================================
+Path: C:\Users\awojo\OneDrive\Documents\dev\patriot\tests\test_basic.py
+--------------------------------------------------------------------------------
+import unittest
+from flask import current_app
+from app import create_app, db
+
+class BasicsTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_app_exists(self):
+        self.assertFalse(current_app is None)
+
+================================================================================
+

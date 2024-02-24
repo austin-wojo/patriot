@@ -8,8 +8,8 @@
     --font-body-family: "Cormorant Garamond", serif;
     --font-header-family: "Proza Libre", sans-serif;
     --font-weight-normal: 400;
-    --font-size-base: calc(1vw + 1vh + 0.5vmin);
-    --font-size-large: calc(3vw + 1vh + 0.5vmin);
+    --font-size-base: calc(2vw + 0.5vmin);
+    --font-size-large: calc(4vw + 0.5vmin);
     --space-sm: 8px;
     --space-md: 16px;
     --space-lg: 32px;

@@ -219,8 +219,12 @@ body, .text-content {
 
     :root {
         --font-size-base: 20px;
-        --font-size-large: 48px;
+        --font-size-large: 36px;
 
+    }
+
+    .header {
+        font-size: 18px;
     }
 
 

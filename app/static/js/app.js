@@ -48,7 +48,7 @@ const HeroSection = {
 
 const AffiliateLinksSection = {
     template: `
-        <section id="products" class="affiliate-links">
+        <section id="products" class="affiliate-links section-transition cream-bg">
             <div v-for="(item, index) in affiliateItems" :key="item.id" class="container hidden" :ref="setRef">
                 <img :src="item.image" :alt="item.title" class="affiliate-image">
                 <h2>{{ item.title }}</h2>
@@ -122,7 +122,9 @@ const AffiliateLinksSection = {
 
 // About Section Component
 const AboutSection = {
-    template: `<!-- About section template with props or data -->`
+    template: `    <section class="about-section">
+    <p> Footer section </p>
+</section>`
 };
 
 // Define more components as needed...

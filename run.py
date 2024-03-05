@@ -7,8 +7,6 @@ if __name__ == '__main__':
 
 
     """
-    https://www.goody2.ai/
-    remove navbar
         made it just show the links at top then \ as you scroll down
     Clean hero with clear call to action
         sign up / donate button?

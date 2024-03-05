@@ -33,7 +33,6 @@ body {
 }
 
 section, .container, .container-header {
-    max-width: 1200px;
     margin: 0 auto;
     padding: var(--space-xl) var(--space-md);
     display: grid;
@@ -51,8 +50,9 @@ section.affiliate-links > div{
 
 .cream-bg {
     background-size: cover;
+    width: 100%;
+    color: #210000;
     background-color: var(--cream-color);
-    color: #333333 ;
 }
 
 .spacer {
@@ -77,6 +77,7 @@ img {
 
 img.img-fluid {
     width: 100%;
+    max-width: 1200px;
     height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-base);
@@ -218,6 +219,7 @@ body, .text-content {
 
 .hero-image {
     width: 100%;
+    max-width: 1200px;
     height: auto;
     object-fit: cover;
     transition: transform 0.3s ease-out;

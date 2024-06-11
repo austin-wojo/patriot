@@ -15,12 +15,7 @@ const NavBar = {
             <div class="fading-line"></div>
         </div>
     </header>
-    `,
-    data() {
-        return {
-            // Data properties for your component
-        }
-    }
+    `
 };
 
 const HeroSection = {
@@ -32,7 +27,7 @@ const HeroSection = {
             <h1 class="hero-title">ROBERT M. SITARSKI</h1>
             <h2 class="hero-subtitle">FOR OSHTEMO TOWNSHIP SUPERVISOR</h2>
         </div>
-        <div id="donate"class="donate-section container">
+        <div id="donate" class="donate-section container">
             <button class="donate-button">Donate Now</button>
             <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
             <div class="video-wrapper">
@@ -40,12 +35,7 @@ const HeroSection = {
             </div>
         </div>
     </section>
-    `,
-    data() {
-        return {
-
-        }
-    }
+    `
 };
 
 const AboutSection = {
@@ -53,9 +43,8 @@ const AboutSection = {
     <section id="about" class="about-section fade-in">
         <div class="container">
             <h2>About</h2>
-                        <div class="about-photos">
+            <div class="about-photos">
                 <img src="static/images/portrait.jpg" alt="Photo 1">
-
             </div>
             <div class="about-content">
                 <p>Oshtemo Township Supervisor. BS Public Administration, CMU, 2003; Master’s coursework in Public Administration, WMU, 2010-2012. rsitar5@gmail.com</p>
@@ -66,11 +55,11 @@ const AboutSection = {
                 <p><a href="http://www.facebook.com/rob.sitarski" target="_blank">www.facebook.com/rob.sitarski</a></p>
                 <p>Quality Engineer</p>
             </div>
-
         </div>
     </section>
     `
 };
+
 const PoliciesSection = {
     template: `
     <section id="policies" class="policies-section fade-in">
@@ -108,10 +97,17 @@ const PoliciesSection = {
     `
 };
 
-
 const DonateSection = {
     template: `
-
+    <section id="donate" class="donate-section fade-in">
+        <div class="container">
+            <button class="donate-button">Donate Now</button>
+            <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
+            <div class="video-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
     `
 };
 

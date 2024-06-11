@@ -1,17 +1,15 @@
 const { createApp } = Vue;
 
-
-
 const NavBar = {
     template: `
-    <header >
+    <header>
         <div id="main-nav" class="container-header">
             <nav>
                 <ul>
                     <li><a href="#hero">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
-                    <li><a href="#products">PRODUCTS</a></li>
-                    <li><a href="#signup">SIGN UP</a></li>
+                    <li><a href="#policies">POLICIES</a></li>
+                    <li><a href="#donate">DONATE</a></li>
                 </ul>
             </nav>
             <div class="fading-line"></div>
@@ -25,16 +23,21 @@ const NavBar = {
     }
 };
 
-
-// Hero Section Component
 const HeroSection = {
     props: ['src'],
     template: `
     <section id="hero" class="hero fade-in">
         <div class="container">
             <img :src="src" alt="Hero Image" class="hero-image">
-                <h1 class="hero-title">BIBLICAL CITIZENSHIP CLASS</h1>
-            <p class="hero-text">General text goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vehicula ligula justo, sit amet vestibulum metus eleifend nec. Aenean eget est non dolor pharetra maximus id at neque. Aenean egestas condimentum libero, eget hendrerit quam porttitor ac. Phasellus consectetur placerat ipsum ut bibendum. Duis a faucibus enim. Aliquam finibus leo eget ipsum tristique, non pretium ligula laoreet. Quisque gravida suscipit pellentesque. Vestibulum dignissim facilisis lectus sagittis pellentesque.</p>
+            <h1 class="hero-title">ROBERT M. SITARSKI</h1>
+            <h2 class="hero-subtitle">FOR OSHTEMO TOWNSHIP SUPERVISOR</h2>
+        </div>
+        <div id="donate"class="donate-section container">
+            <button class="donate-button">Donate Now</button>
+            <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
+            <div class="video-wrapper">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
         </div>
     </section>
     `,
@@ -43,100 +46,83 @@ const HeroSection = {
 
         }
     }
-
 };
 
-const AffiliateLinksSection = {
-    template: `
-        <section id="products" class="affiliate-links section-transition cream-bg">
-            <div v-for="(item, index) in affiliateItems" :key="item.id" class="container hidden" :ref="setRef">
-                <img :src="item.image" :alt="item.title" class="affiliate-image">
-                <h2>{{ item.title }}</h2>
-                <p class="hidden">{{ item.description }}</p>
-                <a :href="item.link" target="_blank" class="affiliate-link">Learn More</a>
-            </div>
-        </section>
-    `,
-    data() {
-        return {
-            affiliateItems: [
-                {
-                    id: 1,
-                    title: 'Affiliate Product',
-                    description: 'Donec id tincidunt purus, sed interdum diam. Etiam non dignissim turpis, eget volutpat elit. Maecenas semper sem at ipsum tristique, a sagittis sem tempor. Suspendisse sit amet fringilla mi, eget placerat ipsum. Suspendisse molestie lacus diam, at placerat nulla pellentesque vel. Morbi molestie pulvinar tempor. Proin dapibus ac elit vitae facilisis. Integer maximus eget nunc sit amet pharetra. Donec risus nibh, lobortis et aliquam nec, congue eu odio. Fusce accumsan sem quis tortor tempor, in lobortis nisl fringilla. Ut quis pretium mi. Maecenas eget fermentum augue. ',
-                    image: 'static/images/book1.avif',
-                    link: '#link1'
-                },
-                {
-                    id: 2,
-                    title: 'Affiliate Product',
-                    description: 'Vestibulum fringilla nunc sit amet viverra porttitor. Sed a mi a neque tincidunt consectetur eget at ex. Nunc et scelerisque lorem. In accumsan ac nisl in varius. Fusce rhoncus eget nibh et imperdiet. Morbi pharetra congue massa, sed dapibus dolor porttitor sit amet. Pellentesque vel nulla ante. Proin nec lectus at libero dapibus fringilla in sit amet tortor. Aenean vel ante blandit, feugiat lorem sit amet, convallis ante. ',
-                    image: 'static/images/manreadingbook.webp',
-                    link: '#link2'
-                },
-                // Add more items as needed
-            ]
-        }
-    },
-    methods: {
-        setRef(container) {
-            if (container) {
-                this.$nextTick(() => {
-                    // Observe the container for image and header
-                    this.observeElement(container, 'affiliate-image');
-                    // Observe the description paragraph separately
-                    const description = container.querySelector('p');
-                    this.observeElement(description, 'description', container.dataset.index);
-                });
-            }
-        } ,
-        
-        observeElement(el, type, index = 0) {
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        let animationClass;
-                        if (type === 'affiliate-image') {
-                            animationClass = entry.target.dataset.index % 2 === 0 ? 'fade-in-right' : 'fade-in-left';
-                            entry.target.classList.add(animationClass);
-                        } else if (type === 'description') {
-                            animationClass = 'fade-in';
-                            // Apply a staggered delay based on the index
-                            let delay = parseInt(index) * 0.2; // Adjust the multiplier for different delays
-                            entry.target.style.animationDelay = `${delay}s`;
-                            entry.target.classList.add(animationClass);
-                        }
-                        observer.unobserve(entry.target); // Stop observing once animated
-                    }
-                });
-            }, { threshold: 0.5 });
-    
-            observer.observe(el);
-        }
-    },
-    mounted() {
-        // Intersection Observer setup is handled in setRef method
-    }
-};
-
-
-// About Section Component
 const AboutSection = {
-    template: `    <section class="about-section">
-    <p> Footer section </p>
-</section>`
+    template: `
+    <section id="about" class="about-section fade-in">
+        <div class="container">
+            <h2>About</h2>
+                        <div class="about-photos">
+                <img src="static/images/portrait.jpg" alt="Photo 1">
+
+            </div>
+            <div class="about-content">
+                <p>Oshtemo Township Supervisor. BS Public Administration, CMU, 2003; Master’s coursework in Public Administration, WMU, 2010-2012. rsitar5@gmail.com</p>
+                <p>Voluntary Probation Officer, 16th Dist. Court, Livonia, MI 1997-2007; Certified Supplier Quality Engineer, 2002. Career in automotive quality 25 years. Married 20 years and have three stepchildren. I have been a Kalamazoo County resident since 2007 and have 32 years of continuous sobriety.</p>
+                <p>P.O. Box 136 Oshtemo, MI. 49097</p>
+                <p><a href="http://cterobertmsitarski.com/" target="_blank">cterobertmsitarski.com</a></p>
+                <p>269-220-9114</p>
+                <p><a href="http://www.facebook.com/rob.sitarski" target="_blank">www.facebook.com/rob.sitarski</a></p>
+                <p>Quality Engineer</p>
+            </div>
+
+        </div>
+    </section>
+    `
+};
+const PoliciesSection = {
+    template: `
+    <section id="policies" class="policies-section fade-in">
+        <div class="container">
+            <h2>Policies</h2>
+            <div class="policies-grid">
+                <div class="policy-card">
+                    <img src="static/icons/sewer.svg" alt="Sewer Expansion" class="policy-icon">
+                    <h3>Top Priority: Sewer Expansion</h3>
+                    <p>To finish the sewer expansion project. I will resolve the sewer issue swiftly through resident input and project review.</p>
+                </div>
+                <div class="policy-card">
+                    <img src="static/icons/law.svg" alt="Law Enforcement" class="policy-icon">
+                    <h3>Strengthening Law Enforcement</h3>
+                    <p>Kalamazoo County is a sanctuary county. I will work with the sheriff to develop a stronger law enforcement strategy to ensure Oshtemo resident's safety.</p>
+                </div>
+                <div class="policy-card">
+                    <img src="static/icons/voting.svg" alt="Voting Rights" class="policy-icon">
+                    <h3>Restoring Voting Rights</h3>
+                    <p>To address Oshtemo resident’s voting rights. The ability to vote for board appointments and bond proposals has been suppressed. It is imperative to restore the Supervisor to a public servant and have public issues decided by resident vote.</p>
+                </div>
+                <div class="policy-card">
+                    <img src="static/icons/skills.svg" alt="Skills" class="policy-icon">
+                    <h3>Talents, Skills, and Experiences</h3>
+                    <p>I possess excellent communication skills. This ability to relay ideas and negotiate is essential to perform the functions of the Township Supervisor. My experience in automotive manufacturing has given me a problem-solving and process-oriented skill set.</p>
+                </div>
+                <div class="policy-card">
+                    <img src="static/icons/env.svg" alt="Environmental Issues" class="policy-icon">
+                    <h3>Environmental Issues</h3>
+                    <p>An important environmental concern is contamination of the water table. I will initiate a thorough risk assessment of septic tank leakage into the water table.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    `
 };
 
-// Define more components as needed...
+
+const DonateSection = {
+    template: `
+
+    `
+};
 
 // Create Vue application
 const app = createApp({});
 
 // Register components
 app.component('nav-bar', NavBar);
-app.component('af-links-section', AffiliateLinksSection);
 app.component('hero-section', HeroSection);
 app.component('about-section', AboutSection);
-// Register more components...
+app.component('policies-section', PoliciesSection);
+app.component('donate-section', DonateSection);
 
 app.mount('#app');

@@ -30,7 +30,6 @@ body {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.6;
-    text-align: center; /* Center text by default */
 }
 
 section, .container, .container-header {
@@ -39,7 +38,6 @@ section, .container, .container-header {
     display: grid;
     place-items: center;
     align-content: center;
-    text-align: center; /* Ensure text is centered */
 }
 
 .hidden {
@@ -266,7 +264,6 @@ body, .text-content {
 .about-section p, .about-section h2 {
     margin: var(--space-md) 0;
 }
-
 .donate-button {
     font-size: calc(var(--font-size-base) * 1.5); /* Increase the font size */
     padding: calc(var(--space-sm) * 2) calc(var(--space-lg) * 2); /* Increase padding */
@@ -277,11 +274,20 @@ body, .text-content {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 .video-wrapper {
     margin-top: var(--space-lg);
 }
 
+@media screen and (max-width: 768px) {
+    :root {
+        --font-size-base: 20px;
+        --font-size-large: 30px;
+    }
+
+    .container-header {
+        font-size: 16px;
+    }
+}
 .policies-section {
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -333,6 +339,13 @@ body, .text-content {
 }
 
 /* Responsive Design */
+@media screen and (min-width: 769px) {
+    .policies-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-lg);
+    }
+}
+
 @media screen and (max-width: 768px) {
     :root {
         --font-size-base: 20px;
@@ -364,24 +377,5 @@ body, .text-content {
 
     .policy-card p {
         font-size: calc(var(--font-size-base) * 0.8);
-    }
-
-    /* Adjust margins and paddings for better spacing on small screens */
-    .hero, .about-section, .video-wrapper, .donate-button {
-        margin-top: var(--space-lg);
-        padding: var(--space-lg) var(--space-md);
-    }
-
-    /* Ensure the hero title fits within the screen */
-    .hero-title {
-        font-size: var(--font-size-large);
-        margin-top: var(--space-md);
-        padding: 0 var(--space-md);
-    }
-
-    /* Reduce padding for the donate button on small screens */
-    .donate-button {
-        padding: var(--space-md) var(--space-lg);
-        font-size: calc(var(--font-size-base) * 1.2);
     }
 }

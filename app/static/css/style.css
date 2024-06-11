@@ -30,7 +30,7 @@ body {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-normal);
     line-height: 1.6;
-    text-align: center; /* Center text by default */
+    text-align: center;
 }
 
 section, .container, .container-header {
@@ -39,51 +39,20 @@ section, .container, .container-header {
     display: grid;
     place-items: center;
     align-content: center;
-    text-align: center; /* Ensure text is centered */
-}
-
-.hidden {
-    opacity: 0;
-}
-
-.cream-bg {
-    background-size: cover;
     width: 100%;
-    color: #210000;
-    background-color: var(--cream-color);
+    box-sizing: border-box; /* Ensure padding is included in the width calculation */
 }
 
-.spacer {
-    aspect-ratio: 960/300;
+.hidden { opacity: 0; }
+
+.cream-bg, .spacer, img.img-fluid {
     width: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
     background-size: cover;
-}
-
-.layer1 {
-    background-image: url('./layer1.svg');
-}
-
-.layer2 {
-    background-image: url('./layer1.svg');
-    transform: scale(1, -1);
-    transform-origin: center;
-}
-
-.show {
-    opacity: 1;
-}
-
-img {
-    max-width: 100%;
     height: auto;
 }
 
 img.img-fluid {
-    width: 100%;
     max-width: 1200px;
-    height: auto;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-base);
     object-fit: cover;
@@ -128,7 +97,6 @@ header {
 
 .container-header:after {
     content: '';
-    background-color: transparent;
     display: block;
     width: 100%;
     height: 3px;
@@ -148,6 +116,12 @@ header {
 
 .hero {
     margin-top: -100px;
+    position: relative;
+}
+
+.hero .container, .text-content {
+    position: relative;
+    z-index: 2;
 }
 
 .hero-title {
@@ -155,44 +129,23 @@ header {
     font-family: var(--font-header-family);
     font-weight: var(--font-weight-normal);
     margin-top: -50px;
-}
-
-body, .text-content {
-    text-align: center;
+    padding: 0 var(--space-md);
 }
 
 .text-content, p, h1, h2, h3, h4, h5, h6 {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto;
     max-width: 90%;
     padding: 0 var(--space-md);
 }
 
 @keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        filter: blur(5px);
-        transform: translateX(-50%);
-        transition: all 1s;
-    }
-    to {
-        opacity: 1;
-        filter: blur(0);
-        transform: translateX(0);
-    }
+    0% { opacity: 0; filter: blur(5px); transform: translateX(-50%); }
+    100% { opacity: 1; filter: blur(0); transform: translateX(0); }
 }
 
 @keyframes fadeInRight {
-    from {
-        opacity: 0;
-        filter: blur(5px);
-        transform: translateX(50%);
-        transition: all 1s;
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+    0% { opacity: 0; filter: blur(5px); transform: translateX(50%); }
+    100% { opacity: 1; transform: translateX(0); }
 }
 
 .fade-in-left {
@@ -201,15 +154,6 @@ body, .text-content {
 
 .fade-in-right {
     animation: fadeInRight 1s forwards;
-}
-
-.hero {
-    position: relative;
-}
-
-.hero .container {
-    position: relative;
-    z-index: 2;
 }
 
 .hero-image-wrapper {
@@ -228,37 +172,20 @@ body, .text-content {
     transition: transform 0.3s ease-out;
 }
 
-.fade-in {
-    animation: fadeInAnimation 1.5s ease-out forwards;
-}
-
-@keyframes fadeInAnimation {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.photos-grid {
+.photos-grid, .about-photos {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--space-md);
-}
-
-.about-photos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-md);
-    margin-top: var(--space-lg);
 }
 
 .about-section {
     background-color: var(--cream-color);
-    color: var(--bg-color); /* Assuming --bg-color is a dark color for contrast */
+    color: var(--bg-color);
     font-family: var(--font-body-family);
-    font-size: calc(var(--font-size-base) * 1.1); /* Slightly larger font size */
+    font-size: calc(var(--font-size-base) * 1.1);
     font-weight: var(--font-weight-normal);
-    line-height: 1.8; /* Increased line height for better readability */
+    line-height: 1.8;
     padding: var(--space-xl) var(--space-md);
-    text-align: center;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow-base);
 }
@@ -268,8 +195,8 @@ body, .text-content {
 }
 
 .donate-button {
-    font-size: calc(var(--font-size-base) * 1.5); /* Increase the font size */
-    padding: calc(var(--space-sm) * 2) calc(var(--space-lg) * 2); /* Increase padding */
+    font-size: calc(var(--font-size-base) * 1.5);
+    padding: calc(var(--space-sm) * 2) calc(var(--space-lg) * 2);
     background-color: var(--accent-color-red);
     color: var(--cream-color);
     border: none;
@@ -288,7 +215,6 @@ body, .text-content {
     font-family: var(--font-body-family);
     font-size: var(--font-size-base);
     padding: var(--space-xl) var(--space-md);
-    text-align: center;
 }
 
 .policies-grid {
@@ -339,13 +265,9 @@ body, .text-content {
         --font-size-large: 30px;
     }
 
-    .container-header {
+    .container-header, .policies-grid, .policy-card {
         font-size: 16px;
-    }
-
-    .policies-grid {
         grid-template-columns: 1fr;
-        gap: var(--space-md);
     }
 
     .policy-card {
@@ -366,22 +288,13 @@ body, .text-content {
         font-size: calc(var(--font-size-base) * 0.8);
     }
 
-    /* Adjust margins and paddings for better spacing on small screens */
     .hero, .about-section, .video-wrapper, .donate-button {
         margin-top: var(--space-lg);
         padding: var(--space-lg) var(--space-md);
     }
 
-    /* Ensure the hero title fits within the screen */
     .hero-title {
         font-size: var(--font-size-large);
-        margin-top: var(--space-md);
-        padding: 0 var(--space-md);
-    }
-
-    /* Reduce padding for the donate button on small screens */
-    .donate-button {
-        padding: var(--space-md) var(--space-lg);
-        font-size: calc(var(--font-size-base) * 1.2);
+        margin-top: var
     }
 }

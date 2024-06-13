@@ -27,10 +27,13 @@ const HeroSection = {
     template: `
     <section id="hero" class="hero fade-in">
         <div class="container">
-            <img :src="src" alt="Hero Image" class="hero-image">
-            
-            <h1 class="hero-title">ROBERT M. SITARSKI</h1>
-            <h2 class="hero-subtitle">CANDIDATE FOR <br> OSHTEMO TOWNSHIP SUPERVISOR</h2>
+            <div class="hero-wrapper">
+                <img :src="src" alt="Hero Image" class="hero-image">
+            </div>
+            <div>
+                <h1 class="hero-title">ROBERT M. SITARSKI</h1>
+                <h2 class="hero-subtitle">CANDIDATE FOR <br> OSHTEMO TOWNSHIP SUPERVISOR</h2>
+            </div>
         </div>
         
         <div >

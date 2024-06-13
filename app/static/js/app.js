@@ -12,7 +12,6 @@ const NavBar = {
                     <li><a href="#donate">DONATE</a></li>
                 </ul>
             </nav>
-            <div class="fading-line"></div>
         </div>
     </header>
     `,
@@ -31,10 +30,14 @@ const HeroSection = {
             <img :src="src" alt="Hero Image" class="hero-image">
             
             <h1 class="hero-title">ROBERT M. SITARSKI</h1>
-            <h2 class="hero-subtitle">CANDIDATE FOR <br><br> OSHTEMO TOWNSHIP SUPERVISOR</h2>
+            <h2 class="hero-subtitle">CANDIDATE FOR <br> OSHTEMO TOWNSHIP SUPERVISOR</h2>
         </div>
-        <p class="quote1">"We mutually pledge to each other our lives, our fortunes, and our sacred honour." - Thomas Jefferson</p>
-        <p class="quote2">"Duty is ours; results are God's" - John Quincy Adams</p>
+        
+        <div >
+            <p class="quote1">"We mutually pledge to each other our lives, our fortunes, and our sacred honour." - Thomas Jefferson</p>
+            <p class="quote2">"Duty is ours; results are God's" - John Quincy Adams</p>
+        </div>
+
         <div id="donate"class="donate-section container">
             <button class="donate-button">Donate Now</button>
             <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
@@ -42,6 +45,7 @@ const HeroSection = {
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/-KoXt9pZLGM" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </div>
+    </section>
     `,
     data() {
         return {
@@ -61,9 +65,9 @@ const AboutSection = {
 
                 </div>
             <div class="about-content">
-                <p>Oshtemo Township Supervisor. BS Public Administration, CMU, 2003; Master’s coursework in Public Administration, WMU, 2010-2012. rsitar5@gmail.com</p>
-                <p>Voluntary Probation Officer, 16th Dist. Court, Livonia, MI 1997-2007; Certified Supplier Quality Engineer, 2002. Career in automotive quality 25 years.<br> Married 20 years and have three stepchildren.<br> Constitutional Coach Patriot Academy since 2023 <br> I have been a Kalamazoo County resident since 2007. I'm a recovered alchoholic with 32 years of continuous sobriety.</p>
-                <p>P.O. Box 136 Oshtemo, MI. 49097</p>
+                <p>Candidate for Oshtemo Township Supervisor. <br> BS Public Administration, CMU, 2003 <br> Master’s coursework in Public Administration, WMU, 2010-2012.</p>
+                <p>Voluntary Probation Officer, 16th Dist. Court, Livonia, MI 1997-2007 <br>Certified Supplier Quality Engineer, 2002. Career in automotive quality 25 years.<br> Married 20 years and have three stepchildren.<br> Constitutional Coach Patriot Academy since 2023 <br> I have been a Kalamazoo County resident since 2007. I'm a recovered alchoholic with 32 years of continuous sobriety.</p>
+                <p>P.O. Box 136 Oshtemo, MI. 49097 <br> rsitar5@gmail.com </p>
                 <p><a href="http://cterobertmsitarski.com/" target="_blank">cterobertmsitarski.com</a></p>
                 <p>269-220-9114</p>
                 <p><a href="http://www.facebook.com/rob.sitarski" target="_blank">www.facebook.com/rob.sitarski</a></p>
@@ -81,9 +85,9 @@ const PoliciesSection = {
             <h2>Policies</h2>
             <div class="policies-grid">
                 <div class="policy-card">
-                    <img src="static/icons/sewer.svg" alt="Sewer Expansion" class="policy-icon">
-                    <h3>Sewer Expansion</h3>
-                    <p>To finish the sewer expansion project. I will resolve the sewer issue swiftly through resident input and project review.</p>
+                    <img src="static/icons/voting.svg" alt="Voting Rights" class="policy-icon">
+                    <h3>Restoring Voting Rights</h3>
+                    <p>To address Oshtemo resident’s voting rights. The ability to vote for board appointments and bond proposals has been suppressed. It is imperative to restore the Supervisor to a public servant and have public issues decided by resident vote.</p>
                 </div>
                 <div class="policy-card">
                     <img src="static/icons/law.svg" alt="Law Enforcement" class="policy-icon">
@@ -91,9 +95,9 @@ const PoliciesSection = {
                     <p>Kalamazoo County is a sanctuary county. I will work with the sheriff to develop a stronger law enforcement strategy to ensure Oshtemo resident's safety.</p>
                 </div>
                 <div class="policy-card">
-                    <img src="static/icons/voting.svg" alt="Voting Rights" class="policy-icon">
-                    <h3>Restoring Voting Rights</h3>
-                    <p>To address Oshtemo resident’s voting rights. The ability to vote for board appointments and bond proposals has been suppressed. It is imperative to restore the Supervisor to a public servant and have public issues decided by resident vote.</p>
+                    <img src="static/icons/sewer.svg" alt="Sewer Expansion" class="policy-icon">
+                    <h3>Sewer Expansion</h3>
+                    <p>To finish the sewer expansion project. I will resolve the sewer issue swiftly through resident input and project review.</p>
                 </div>
                 <div class="policy-card">
                     <img src="static/icons/skills.svg" alt="Skills" class="policy-icon">

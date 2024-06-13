@@ -134,15 +134,42 @@ header {
     position: absolute;
     bottom: 0;
 }
+
+.footer-header {
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, rgba(0,0,0,0), var(--accent-color-red), rgba(0,0,0,0));
+    bottom: 0;
+}
+
+p.footer-content {
+    
+}
 .quote1, .quote2 {
-    font-style: italic;
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin: 2rem 0;
-    padding: 1rem;
-    margin-left: 2rem; /* Add left margin */
-    margin-right: 2rem; /* Add right margin */
-    position: relative;
+    
+font-style: italic;
+    
+font-size: 1.2rem;
+    
+line-height: 1.6;
+    
+margin: 2rem 0;
+    
+padding: 1rem;
+    
+margin-left: 2rem; /* Add left margin */
+    
+margin-right: 2rem; /* Add right margin */
+    
+position: relative;
+    
+max-width: 444px;
+    
+/* justify-content: center; */
+    
+display: inline-block;
   }
   
   .quote1 {
@@ -166,8 +193,8 @@ header {
   }
   
   .quote2::after {
-    right: 0.5rem;
-    bottom: 0.5rem;
+    /* left: 0.5rem; */
+    bottom: 1.0rem;
   }
 
 .hero-title {
@@ -239,9 +266,6 @@ body, .text-content {
 
 }
 
-.about-section p, .about-section h2 {
-    margin: var(--space-md) 0;
-}
 .donate-button {
     font-size: calc(var(--font-size-base) * 1.5); /* Increase the font size */
     padding: calc(var(--space-sm) * 2) calc(var(--space-lg) * 2); /* Increase padding */

@@ -146,6 +146,11 @@ header {
 
 p.footer-content {
     
+justify-content: center;
+    
+display: flex;
+    
+padding: 25px;
 }
 .quote1, .quote2 {
     

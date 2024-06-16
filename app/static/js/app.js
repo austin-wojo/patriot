@@ -9,7 +9,7 @@ const NavBar = {
                     <li><a href="#hero">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#policies">POLICIES</a></li>
-                    <li><a href="#donate">DONATE</a></li>
+                    <li><a href="https://donate.stripe.com/test_5kAaG16mO4nhfBKeUU">DONATE</a></li>
                 </ul>
             </nav>
         </div>
@@ -42,7 +42,7 @@ const HeroSection = {
         </div>
 
         <div id="donate"class="donate-section container">
-            <button class="donate-button">Donate Now</button>
+            <a class="donate-button" href="https://donate.stripe.com/test_5kAaG16mO4nhfBKeUU">Donate Now</a>
             <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
             <div class="video-wrapper">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/-KoXt9pZLGM" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

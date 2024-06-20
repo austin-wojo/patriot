@@ -9,7 +9,7 @@ const NavBar = {
                     <li><a href="#hero">HOME</a></li>
                     <li><a href="#about">ABOUT</a></li>
                     <li><a href="#policies">POLICIES</a></li>
-                    <li><a href="https://donate.stripe.com/test_5kAaG16mO4nhfBKeUU">DONATE</a></li>
+                    <li><a href="https://buy.stripe.com/9AQ5nU42L6Pq4uc7ss">DONATE</a></li>
                 </ul>
             </nav>
         </div>
@@ -41,14 +41,9 @@ const HeroSection = {
             <p class="quote2">"Duty is ours; results are God's" - John Quincy Adams</p>
         </div>
 
-        <div id="donate"class="donate-section container">
-            <a class="donate-button" href="https://donate.stripe.com/test_5kAaG16mO4nhfBKeUU">Donate Now</a>
-            <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
-            <div class="video-wrapper">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/-KoXt9pZLGM" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
+        <div class="video-wrapper">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/-KoXt9pZLGM" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-    </section>
     `,
     data() {
         return {
@@ -114,10 +109,15 @@ const PoliciesSection = {
     `
 };
 
-
 const DonateSection = {
     template: `
+    <section>
+        <div id="donate"class="donate-section container">
+            <a class="donate-button" href="https://buy.stripe.com/9AQ5nU42L6Pq4uc7ss">Donate Now</a>
+            <p>Your support is greatly appreciated. Please consider making a donation to help us achieve our goals.</p>
 
+        </div>
+    </section>
     `
 };
 

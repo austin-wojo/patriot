@@ -64,7 +64,7 @@ const AboutSection = {
                 </div>
             <div class="about-content">
                 <p>Candidate for Oshtemo Township Supervisor. <br> BS Public Administration, CMU, 2003 <br> Master’s coursework in Public Administration, WMU, 2010-2012.</p>
-                <p>Voluntary Probation Officer, 16th Dist. Court, Livonia, MI 1997-2007 <br>Certified Supplier Quality Engineer, 2002. Career in automotive quality 25 years.<br> Married 20 years and have three stepchildren.<br> Constitutional Coach Patriot Academy since 2023 <br> I have been a Kalamazoo County resident since 2007. I'm a recovered alcoholic with 32 years of continuous sobriety.</p>
+                <p>Voluntary Probation Officer, 16th Dist. Court, Livonia, MI 1997-2007 <br>Certified Supplier Quality Engineer, 2002. Career in automotive quality 25 years.<br> Married 20 years and have three stepchildren.<br> Constitutional Coach Patriot Academy since 2023 <br> NFIB member 2024 <br> I have been a Kalamazoo County resident since 2007. I'm a recovered alcoholic with 32 years of continuous sobriety.</p>
                 <p>P.O. Box 136 Oshtemo, MI. 49097 <br> rsitar5@gmail.com </p>
                 <p><a href="http://cterobertmsitarski.com/" target="_blank">cterobertmsitarski.com</a></p>
                 <p>269-220-9114</p>

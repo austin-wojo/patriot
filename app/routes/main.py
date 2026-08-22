@@ -1,44 +1,87 @@
-from flask import Blueprint, render_template, url_for
 import os
-import tempfile
+from datetime import datetime, timedelta
 
-# Create a Blueprint for 'main'
+from flask import Blueprint, render_template
+from sqlalchemy import func
+
+from ..extensions import db
+from ..models import DailyStat, Visitor, utcnow
+
 main = Blueprint('main', __name__)
 
-# Anchor to the project root so the path never depends on the process CWD
-_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-COUNTER_FILE = os.path.join(_PROJECT_ROOT, 'counter.txt')
+# Raw hit count from the old text-file counter, kept only so the historical
+# number is not lost. It counted bots and refreshes, so it is not comparable
+# to the visitor figures below and is labelled as such on the dashboard.
+_LEGACY_COUNTER = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    'counter.txt',
+)
 
-def read_counter():
-    """Return the current count, or 0 if the file is missing, empty or corrupt."""
+CHART_DAYS = 30
+
+
+def _legacy_hits():
     try:
-        with open(COUNTER_FILE, 'r') as file:
-            return int(file.read().strip() or 0)
+        with open(_LEGACY_COUNTER) as handle:
+            return int(handle.read().strip() or 0)
     except (OSError, ValueError):
         return 0
-
-def write_counter(count):
-    """Write atomically so a killed worker can't leave a half-written file."""
-    try:
-        fd, tmp = tempfile.mkstemp(dir=_PROJECT_ROOT, prefix='.counter-')
-        try:
-            with os.fdopen(fd, 'w') as file:
-                file.write(str(count))
-            os.replace(tmp, COUNTER_FILE)
-        except BaseException:
-            os.unlink(tmp)
-            raise
-    except OSError:
-        pass  # Counting is best-effort; never fail a page render over it
 
 
 @main.route('/')
 def index():
     """Render the homepage."""
-    write_counter(read_counter() + 1)
     return render_template('main/index.html')
+
 
 @main.route('/counter')
 def counter():
-    count = read_counter()
-    return render_template('main/counter.html', count = count)
+    """Visitor statistics, for showing the client how the site is performing."""
+    now = utcnow()
+    today = now.date()
+
+    totals = {
+        'visitors': db.session.query(func.count(Visitor.hash)).scalar() or 0,
+        'pageviews': db.session.query(func.coalesce(func.sum(DailyStat.pageviews), 0)).scalar(),
+        'legacy_hits': _legacy_hits(),
+    }
+
+    def active_since(days):
+        cutoff = now - timedelta(days=days)
+        return db.session.query(func.count(Visitor.hash)).filter(Visitor.last_seen >= cutoff).scalar() or 0
+
+    today_stat = db.session.get(DailyStat, today)
+    summary = {
+        'today': today_stat.uniques if today_stat else 0,
+        'last_7': active_since(7),
+        'last_30': active_since(30),
+        'new_today': db.session.query(func.count(Visitor.hash))
+                       .filter(Visitor.first_seen >= datetime.combine(today, datetime.min.time()))
+                       .scalar() or 0,
+    }
+
+    # Fill gaps so the chart shows quiet days instead of skipping them.
+    start = today - timedelta(days=CHART_DAYS - 1)
+    recorded = {
+        row.day: row
+        for row in db.session.query(DailyStat).filter(DailyStat.day >= start).all()
+    }
+    series = []
+    for offset in range(CHART_DAYS):
+        day = start + timedelta(days=offset)
+        row = recorded.get(day)
+        series.append({
+            'day': day,
+            'uniques': row.uniques if row else 0,
+            'pageviews': row.pageviews if row else 0,
+        })
+    peak = max([point['uniques'] for point in series] + [1])
+
+    return render_template(
+        'main/counter.html',
+        totals=totals,
+        summary=summary,
+        series=series,
+        peak=peak,
+        generated_at=now,
+    )

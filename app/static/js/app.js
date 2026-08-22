@@ -30,14 +30,20 @@ const HeroSection = {
 
             <div class="hero-actions">
                 <a class="btn btn-primary" href="https://buy.stripe.com/9AQ5nU42L6Pq4uc7ss">Donate Now</a>
-                <a class="video-link" href="https://www.youtube.com/watch?v=-KoXt9pZLGM" target="_blank" rel="noopener">
-                    <span class="video-play" aria-hidden="true">&#9654;</span>
-                    <span class="video-text">
-                        <strong>God Bless The U.S.A.</strong>
-                        <small>Lee Greenwood &middot; watch on YouTube</small>
-                    </span>
-                </a>
             </div>
+
+            <figure class="video-embed">
+                <div class="video-frame">
+                    <iframe
+                        src="https://www.youtube-nocookie.com/embed/-KoXt9pZLGM?rel=0"
+                        title="God Bless The U.S.A. — Lee Greenwood"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen></iframe>
+                </div>
+                <figcaption>&ldquo;God Bless The U.S.A.&rdquo; &middot; Lee Greenwood</figcaption>
+            </figure>
 
             <div class="quotes-grid">
                 <blockquote class="quote-card">
